@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Shop Aalfaz — Browse our full collection of earrings, pendants, anklets, rings, bracelets and accessories." />
+    <title>Shop — Aalfaz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <!-- Navigation — always cream / scrolled on shop page -->
+    <header id="navbar" class="navbar navbar--shop">
+      <div class="nav-inner">
+        <!-- Left Links -->
+        <nav class="nav-links nav-links--left" aria-label="Primary navigation left">
+          <a href="shop.html" class="nav-link nav-link--active">Shop</a>
+          <a href="index.html#philosophy" class="nav-link">About</a>
+          <a href="#" class="nav-link">Futures</a>
+        </nav>
+
+        <!-- Mobile Hamburger -->
+        <button class="nav-hamburger" id="hamburger-btn" aria-label="Open menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <!-- Logo -->
+        <a href="index.html" class="nav-logo" aria-label="Aalfaz home">Aalfaz</a>
+
+        <!-- Right Links -->
+        <nav class="nav-links nav-links--right" aria-label="Primary navigation right">
+          <a href="#" class="nav-link nav-link--desktop">Search</a>
+          <a href="#" class="nav-link nav-link--desktop">Account</a>
+          <a href="#" class="nav-link" id="cart-link">Cart (0)</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Mobile Menu Drawer -->
+    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+      <nav class="mobile-menu__nav">
+        <a href="shop.html" class="mobile-menu__link">Shop</a>
+        <a href="index.html#philosophy" class="mobile-menu__link">About</a>
+        <a href="#" class="mobile-menu__link">Futures</a>
+        <a href="#" class="mobile-menu__link">Search</a>
+        <a href="#" class="mobile-menu__link">Account</a>
+        <a href="#" class="mobile-menu__link">Cart (0)</a>
+      </nav>
+    </div>
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
+
+    <main class="shop-page">
+
+      <!-- Category Tabs -->
+      <div class="shop__tabs-wrap">
+        <div class="shop__tabs" id="shop-tabs">
+          <button class="shop__tab shop__tab--active" data-category="featured">Featured</button>
+          <button class="shop__tab" data-category="earrings">Earrings</button>
+          <button class="shop__tab" data-category="pendants">Pendants</button>
+          <button class="shop__tab" data-category="anklets">Anklets</button>
+          <button class="shop__tab" data-category="rings">Rings</button>
+          <button class="shop__tab" data-category="bracelets">Bracelets</button>
+          <button class="shop__tab" data-category="accessories">Accessories</button>
+        </div>
+      </div>
+
+      <!-- Controls: count + sort -->
+      <div class="shop__controls">
+        <span class="shop__count" id="shop-count">6 products</span>
+        <div class="shop__sort-wrap">
+          <label for="shop-sort" class="shop__sort-label">Sort by:</label>
+          <select id="shop-sort" class="shop__sort-select">
+            <option value="newest">Newest</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="price-asc">Price: Low to High</option>
+          </select>
+          <svg class="shop__sort-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+
+      <!-- Product Grid -->
+      <div class="shop__grid" id="shop-grid"></div>
+
+      <!-- Coming Soon -->
+      <div class="shop__coming-soon" id="shop-coming-soon" style="display:none;">
+        <p class="shop__coming-eyebrow">Stay Tuned</p>
+        <h2 class="shop__coming-title">Coming Soon</h2>
+        <p class="shop__coming-body">This collection is currently being curated.<br>Check back soon for new arrivals.</p>
+      </div>
+
+    </main>
+
+    <!-- Footer (identical to homepage) -->
+    <footer class="site-footer" id="site-footer">
+      <div class="footer__inner">
+        <!-- Oversized Animated Logo -->
+        <div class="footer__logo-wrap">
+          <h2 class="footer__logo-text" id="footer-logo">Aalfaz</h2>
+        </div>
+
+        <!-- Thin divider -->
+        <hr class="footer__divider" />
+
+        <!-- Link grid -->
+        <div class="footer__links-grid">
+          <div class="footer__link-col">
+            <h3 class="footer__col-title">Collections</h3>
+            <a href="#" class="footer__link">Rings</a>
+            <a href="#" class="footer__link">Necklaces</a>
+            <a href="#" class="footer__link">Earrings</a>
+            <a href="#" class="footer__link">Bracelets</a>
+          </div>
+          <div class="footer__link-col">
+            <h3 class="footer__col-title">Brand</h3>
+            <a href="#" class="footer__link">About Alfaaz</a>
+            <a href="#" class="footer__link">Our Story</a>
+            <a href="#" class="footer__link">Craftsmanship</a>
+          </div>
+          <div class="footer__link-col">
+            <h3 class="footer__col-title">Support</h3>
+            <a href="#" class="footer__link">Contact</a>
+            <a href="#" class="footer__link">FAQ</a>
+            <a href="#" class="footer__link">Shipping &amp; Returns</a>
+            <a href="#" class="footer__link">Care Guide</a>
+          </div>
+          <div class="footer__link-col">
+            <h3 class="footer__col-title">Legal</h3>
+            <a href="#" class="footer__link">Privacy Policy</a>
+            <a href="#" class="footer__link">Terms</a>
+          </div>
+        </div>
+
+        <!-- Bottom row -->
+        <div class="footer__bottom">
+          <p class="footer__copyright">&copy; 2026 Alfaaz. All rights reserved.</p>
+          <div class="footer__region-selector">
+            <span class="footer__region-dot"></span>
+            <span class="footer__region-label">Region /</span>
+            <div class="footer__select-wrap">
+              <select id="country-selector" class="footer__select">
+                <option value="IN">India (INR)</option>
+                <option value="US">United States (USD)</option>
+                <option value="UK">United Kingdom (GBP)</option>
+                <option value="EU">Europe (EUR)</option>
+                <option value="CA">Canada (CAD)</option>
+              </select>
+              <svg class="footer__chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/navbar.js"></script>
+    <script src="js/mobile-menu.js"></script>
+    <script src="js/shop.js"></script>
+    <script src="js/footer-parallax.js"></script>
+  </body>
+</html>
