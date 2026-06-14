@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Alfaaz — Discover the story behind each piece. View product details, imagery, and add to your cart." />
+    <title>Product — Aalfaz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+      /* ── Product Details Page ─────────────────────────── */
+      .pdp-page {
+        padding: 120px 35px 0;
+        min-height: 100vh;
+      }
+
+      /* Breadcrumb */
+      .pdp-breadcrumb {
+        font-size: 0.72rem;
+        font-weight: 500;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #999;
+        margin-bottom: 2.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .pdp-breadcrumb a {
+        color: #999;
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+      .pdp-breadcrumb a:hover { color: #111; }
+      .pdp-breadcrumb__sep { opacity: 0.4; }
+
+      /* Main grid */
+      .pdp-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        margin-bottom: 6rem;
+      }
+      @media (min-width: 768px) {
+        .pdp-grid {
+          grid-template-columns: 1.1fr 0.9fr;
+          gap: 4rem;
+          align-items: start;
+        }
+      }
+
+      /* ── Gallery ── */
+      .pdp-gallery { display: flex; flex-direction: column; gap: 1rem; }
+
+      .pdp-gallery__main {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        background: #f7f5f0;
+        border-radius: var(--hero-radius);
+        overflow: hidden;
+        position: relative;
+      }
+      .pdp-gallery__main img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: opacity 0.35s ease;
+      }
+
+      .pdp-gallery__thumbs {
+        display: flex;
+        gap: 0.75rem;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .pdp-gallery__thumbs::-webkit-scrollbar { display: none; }
+      .pdp-gallery__thumbs { -ms-overflow-style: none; scrollbar-width: none; }
+
+      .pdp-gallery__thumb {
+        flex-shrink: 0;
+        width: 80px;
+        height: 80px;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        background: #f7f5f0;
+        cursor: pointer;
+        border: 2px solid transparent;
+        transition: border-color 0.2s ease, opacity 0.2s ease;
+        opacity: 0.55;
+      }
+      .pdp-gallery__thumb.is-active {
+        border-color: #111;
+        opacity: 1;
+      }
+      .pdp-gallery__thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      /* ── Info ── */
+      .pdp-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+      @media (min-width: 768px) {
+        .pdp-info { position: sticky; top: 110px; }
+      }
+
+      .pdp-info__eyebrow {
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #888;
+        margin-bottom: 0.6rem;
+      }
+
+      .pdp-info__name {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 400;
+        line-height: 1.1;
+        color: #111;
+        margin: 0 0 0.5rem;
+      }
+
+      .pdp-info__subtitle {
+        font-size: 0.88rem;
+        color: #888;
+        margin: 0 0 1.25rem;
+      }
+
+      .pdp-info__stars {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        margin-bottom: 1.5rem;
+        font-size: 13px;
+        color: #4a4a4a;
+      }
+      .pdp-info__reviews {
+        font-size: 0.75rem;
+        color: #999;
+        margin-left: 0.25rem;
+      }
+
+      .pdp-info__price {
+        font-size: 1.5rem;
+        font-weight: 500;
+        color: #111;
+        margin-bottom: 0.4rem;
+      }
+      .pdp-info__tax {
+        font-size: 0.72rem;
+        color: #999;
+        letter-spacing: 0.04em;
+        margin-bottom: 2rem;
+      }
+
+      /* Divider */
+      .pdp-divider {
+        border: none;
+        border-top: 1px solid rgba(0,0,0,0.1);
+        margin: 0 0 1.75rem;
+      }
+
+      /* Quantity */
+      .pdp-qty__label {
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #555;
+        margin-bottom: 0.6rem;
+        display: block;
+      }
+      .pdp-qty {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        border: 1.5px solid rgba(0,0,0,0.12);
+        border-radius: 9999px;
+        width: fit-content;
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+      }
+      .pdp-qty__btn {
+        background: none;
+        border: none;
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        color: #333;
+        cursor: pointer;
+        transition: background 0.2s ease;
+        font-family: var(--font-sans);
+      }
+      .pdp-qty__btn:hover { background: rgba(0,0,0,0.05); }
+      .pdp-qty__num {
+        min-width: 2.5rem;
+        text-align: center;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #111;
+        border: none;
+        background: none;
+        outline: none;
+        font-family: var(--font-sans);
+      }
+
+      /* CTA Buttons */
+      .pdp-ctas {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-bottom: 2rem;
+      }
+      .pdp-btn {
+        width: 100%;
+        padding: 1.1rem;
+        border-radius: 9999px;
+        font-family: var(--font-sans);
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        border: 1.5px solid #111;
+      }
+      .pdp-btn--primary {
+        background: #111;
+        color: #fff;
+      }
+      .pdp-btn--primary:hover {
+        background: #333;
+        transform: translateY(-1px);
+      }
+      .pdp-btn--outline {
+        background: transparent;
+        color: #111;
+      }
+      .pdp-btn--outline:hover {
+        background: #111;
+        color: #fff;
+      }
+
+      /* Description accordion */
+      .pdp-details { margin-bottom: 1.5rem; }
+      .pdp-details__item {
+        border-top: 1px solid rgba(0,0,0,0.1);
+      }
+      .pdp-details__item:last-child { border-bottom: 1px solid rgba(0,0,0,0.1); }
+      .pdp-details__toggle {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 0;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-family: var(--font-sans);
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #333;
+        text-align: left;
+      }
+      .pdp-details__toggle svg {
+        transition: transform 0.3s ease;
+        flex-shrink: 0;
+        color: #888;
+      }
+      .pdp-details__toggle.is-open svg { transform: rotate(180deg); }
+      .pdp-details__body {
+        display: none;
+        padding-bottom: 1.25rem;
+        font-size: 0.88rem;
+        line-height: 1.7;
+        color: #555;
+      }
+      .pdp-details__body.is-open { display: block; }
+
+      /* ── "You May Also Like" Section ─────────────────── */
+      .pdp-related {
+        padding: 0 35px;
+        margin-bottom: 35px;
+      }
+      .pdp-related__heading {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: clamp(1.5rem, 3vw, 2.2rem);
+        font-weight: 400;
+        color: #111;
+        margin: 0 0 2rem;
+      }
+      .pdp-related__grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+      @media (min-width: 600px) {
+        .pdp-related__grid { grid-template-columns: repeat(2, 1fr); }
+      }
+      @media (min-width: 1024px) {
+        .pdp-related__grid { grid-template-columns: repeat(4, 1fr); }
+      }
+      .pdp-related__grid .product-card {
+        width: 100%;
+        flex-shrink: unset;
+        scroll-snap-align: unset;
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- Navigation — always cream on product page -->
+    <header id="navbar" class="navbar navbar--shop">
+      <div class="nav-inner">
+        <!-- Left Links -->
+        <nav class="nav-links nav-links--left" aria-label="Primary navigation left">
+          <a href="shop.html" class="nav-link">Shop</a>
+          <a href="index.html#philosophy" class="nav-link">About</a>
+          <a href="#" class="nav-link">Futures</a>
+        </nav>
+
+        <!-- Mobile Hamburger -->
+        <button class="nav-hamburger" id="hamburger-btn" aria-label="Open menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <!-- Mobile Cart Icon -->
+        <a href="cart.html" class="nav-cart-mobile" aria-label="Cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          <span class="nav-cart-mobile__badge cart-badge">0</span>
+        </a>
+
+        <!-- Logo -->
+        <a href="index.html" class="nav-logo" aria-label="Aalfaz home">Aalfaz</a>
+
+        <!-- Right Links -->
+        <nav class="nav-links nav-links--right" aria-label="Primary navigation right">
+          <a href="#" class="nav-link nav-link--desktop">Search</a>
+          <a href="#" class="nav-link nav-link--desktop">Account</a>
+          <a href="cart.html" class="nav-link" style="display:flex;align-items:center;gap:0.5rem">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+            <span class="cart-count-text">Cart</span>
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Mobile Menu Drawer -->
+    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+      <nav class="mobile-menu__nav">
+        <a href="shop.html" class="mobile-menu__link">Shop</a>
+        <a href="index.html#philosophy" class="mobile-menu__link">About</a>
+        <a href="#" class="mobile-menu__link">Futures</a>
+        <a href="#" class="mobile-menu__link">Search</a>
+        <a href="#" class="mobile-menu__link">Account</a>
+        <a href="cart.html" class="mobile-menu__link cart-count-text">Cart</a>
+      </nav>
+    </div>
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
+
+    <main>
+      <div class="pdp-page">
+
+        <!-- Breadcrumb -->
+        <div class="pdp-breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="pdp-breadcrumb__sep">/</span>
+          <a href="shop.html">Shop</a>
+          <span class="pdp-breadcrumb__sep">/</span>
+          <span id="pdp-breadcrumb-name">Product</span>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="pdp-grid">
+
+          <!-- Gallery -->
+          <div class="pdp-gallery">
+            <div class="pdp-gallery__main">
+              <img id="pdp-main-img" src="" alt="Product Image" />
+            </div>
+            <div class="pdp-gallery__thumbs" id="pdp-thumbs"></div>
+          </div>
+
+          <!-- Info -->
+          <div class="pdp-info">
+            <p class="pdp-info__eyebrow" id="pdp-type">—</p>
+            <h1 class="pdp-info__name" id="pdp-name">Loading…</h1>
+            <p class="pdp-info__subtitle" id="pdp-subtitle"></p>
+
+            <div class="pdp-info__stars">
+              <span>★★★★★</span>
+              <span class="pdp-info__reviews" id="pdp-reviews">(0)</span>
+            </div>
+
+            <p class="pdp-info__price" id="pdp-price">—</p>
+            <p class="pdp-info__tax">Tax included. Free shipping on orders above ₹50,000.</p>
+
+            <hr class="pdp-divider" />
+
+            <!-- Quantity -->
+            <label class="pdp-qty__label">Quantity</label>
+            <div class="pdp-qty">
+              <button class="pdp-qty__btn" id="pdp-qty-minus" aria-label="Decrease">−</button>
+              <span class="pdp-qty__num" id="pdp-qty-num">1</span>
+              <button class="pdp-qty__btn" id="pdp-qty-plus" aria-label="Increase">+</button>
+            </div>
+
+            <!-- CTAs -->
+            <div class="pdp-ctas">
+              <button class="pdp-btn pdp-btn--primary" id="pdp-buy-now">Buy It Now</button>
+              <button class="pdp-btn pdp-btn--outline" id="pdp-add-to-cart">Add to Cart</button>
+            </div>
+
+            <!-- Accordion Details -->
+            <div class="pdp-details">
+              <div class="pdp-details__item">
+                <button class="pdp-details__toggle is-open" data-target="pdp-desc-body">
+                  Description
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="pdp-details__body is-open" id="pdp-desc-body">
+                  <p id="pdp-description">—</p>
+                </div>
+              </div>
+              <div class="pdp-details__item">
+                <button class="pdp-details__toggle" data-target="pdp-material-body">
+                  Materials & Care
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="pdp-details__body" id="pdp-material-body">
+                  <p>All Alfaaz pieces are crafted using ethically sourced materials. Store away from moisture and direct sunlight. Wipe with a soft, dry cloth after use. Avoid contact with perfumes and lotions.</p>
+                </div>
+              </div>
+              <div class="pdp-details__item">
+                <button class="pdp-details__toggle" data-target="pdp-shipping-body">
+                  Shipping & Returns
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="pdp-details__body" id="pdp-shipping-body">
+                  <p>Orders ship within 3–5 business days. Free shipping on orders above ₹50,000. Returns accepted within 7 days of delivery in original condition. Custom and engraved pieces are non-returnable.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- You May Also Like -->
+      <section class="pdp-related" id="pdp-related">
+        <h2 class="pdp-related__heading">You may also like</h2>
+        <div class="pdp-related__grid" id="pdp-related-grid"></div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="site-footer" id="site-footer">
+        <div class="footer__inner">
+          <div class="footer__logo-wrap">
+            <h2 class="footer__logo-text" id="footer-logo">Aalfaz</h2>
+          </div>
+          <hr class="footer__divider" />
+          <div class="footer__links-grid">
+            <div class="footer__link-col">
+              <h3 class="footer__col-title">Collections</h3>
+              <a href="shop.html" class="footer__link">Rings</a>
+              <a href="shop.html" class="footer__link">Necklaces</a>
+              <a href="shop.html" class="footer__link">Earrings</a>
+              <a href="shop.html" class="footer__link">Bracelets</a>
+            </div>
+            <div class="footer__link-col">
+              <h3 class="footer__col-title">Brand</h3>
+              <a href="#" class="footer__link">About Alfaaz</a>
+              <a href="#" class="footer__link">Our Story</a>
+              <a href="#" class="footer__link">Craftsmanship</a>
+            </div>
+            <div class="footer__link-col">
+              <h3 class="footer__col-title">Support</h3>
+              <a href="#" class="footer__link">Contact</a>
+              <a href="#" class="footer__link">FAQ</a>
+              <a href="#" class="footer__link">Shipping &amp; Returns</a>
+              <a href="#" class="footer__link">Care Guide</a>
+            </div>
+            <div class="footer__link-col">
+              <h3 class="footer__col-title">Legal</h3>
+              <a href="#" class="footer__link">Privacy Policy</a>
+              <a href="#" class="footer__link">Terms</a>
+            </div>
+          </div>
+          <div class="footer__bottom">
+            <p class="footer__copyright">&copy; 2026 Alfaaz. All rights reserved.</p>
+            <div class="footer__region-selector">
+              <span class="footer__region-dot"></span>
+              <span class="footer__region-label">Region /</span>
+              <div class="footer__select-wrap">
+                <select id="country-selector" class="footer__select">
+                  <option value="IN">India (INR)</option>
+                  <option value="US">United States (USD)</option>
+                </select>
+                <svg class="footer__chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </main>
+
+    <script src="js/mobile-menu.js"></script>
+    <script src="js/footer-parallax.js"></script>
+    <script src="js/ecommerce.js"></script>
+    <script>
+      /* ── Product Data (mirrors shop.js — will be Firebase later) ── */
+      var PRODUCTS = {
+        featured: [
+          { id:'ring-solitaire',   name:'Solitaire Ring',    type:'ring',     subtitle:'Crafted in 18K gold',     price:'₹45,000',    priceNum:45000,  badge:'new',            reviews:'(41)',      image:'https://res.cloudinary.com/dwchxvpln/image/upload/q_auto/f_auto/v1778842384/file_00000000e4b4722f8e2c578c5734a676_jadeog.png',   hover:'https://res.cloudinary.com/dwchxvpln/image/upload/q_auto/f_auto/v1778842386/file_0000000091d4722f99050295d4df3d55_rfvxmr.png',   description:'A timeless solitaire ring set in 18K gold with a brilliant-cut ethically sourced stone. Designed to be worn alone or stacked.' },
+          { id:'bangles-set',      name:'The Bangle Set',    type:'bangles',  subtitle:'Set of three',             price:'₹1,25,000',  priceNum:125000, badge:'new',            reviews:'(41)',      image:'https://res.cloudinary.com/dwchxvpln/image/upload/q_auto/f_auto/v1778842386/file_000000005dc8722f80fdcd06c66d08a0_qmpmmj.png',  hover:'https://res.cloudinary.com/dwchxvpln/image/upload/q_auto/f_auto/v1778842389/file_00000000e0f8722f8134cab7a06e7b14_dokbto.png',  description:'Three hand-hammered 22K gold bangles in graduated widths. Each bangle is unique — no two are alike.' },
+          { id:'pendant-pearl',    name:'Pearl Pendant',     type:'pendant',  subtitle:'Limited edition piece',    price:'₹32,000',    priceNum:32000,  badge:'limited edition',reviews:'(16,277)', image:'https://res.cloudinary.com/dwchxvpln/image/upload/q_auto/f_auto/v1778842383/file_000000008d20722f930db39bd306a08c_djuj0y.png',  hover:'https://res.cloudinary.com/dwchxvpln/image/upload/q_auto/f_auto/v1778842383/file_000000001534722f8c47bcee05a10c49_qyvafp.png',  description:'A single Akoya pearl suspended on a fine 18K gold chain. Minimal, sculptural, and endlessly wearable.' },
+          { id:'chain-cuban',      name:'Cuban Chain',       type:'chain',    subtitle:'22K gold finish',          price:'₹58,000',    priceNum:58000,  badge:'new',            reviews:'(89)',      image:'https://res.cloudinary.com/dwchxvpln/image/upload/q_auto/f_auto/v1778842387/file_00000000bf88722fab83a9a5152dbd3b_osqjva.png',  hover:'https://res.cloudinary.com/dwchxvpln/image/upload/q_auto/f_auto/v1778842381/file_000000003d14722fabc2369201f40f39_pc4riq.png',  description:'A bold Cuban link chain in 22K gold finish. Substantial in weight, refined in form — made for everyday luxury.' },
+          { id:'earring-drop',     name:'Drop Earrings',     type:'earring',  subtitle:'Diamond studded',          price:'₹28,000',    priceNum:28000,  badge:'new',            reviews:'(204)',     image:'https://images.unsplash.com/photo-1588444837495-c6cfeb53f32d?auto=format&fit=crop&w=800&q=80', hover:'https://images.unsplash.com/photo-1630019852942-f89202989a59?auto=format&fit=crop&w=800&q=80', description:'Delicate drop earrings with pavé-set lab-grown diamonds. Light-catching and effortlessly elegant.' },
+          { id:'bracelet-tennis', name:'Tennis Bracelet',   type:'bracelet', subtitle:'Lab-grown diamonds',       price:'₹75,000',    priceNum:75000,  badge:'limited edition',reviews:'(1,042)',   image:'https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&fit=crop&w=800&q=80', hover:'https://images.unsplash.com/photo-1573408301185-9146fe634ad0?auto=format&fit=crop&w=800&q=80', description:'A classic tennis bracelet set with 3.5ct of lab-grown diamonds in a 14K white gold setting. Flexible, comfortable, brilliant.' }
+        ]
+      };
+
+      (function () {
+        var params = new URLSearchParams(window.location.search);
+        var id = params.get('id');
+        var allProducts = PRODUCTS.featured;
+        var product = allProducts.find(function(p){ return p.id === id; });
+
+        /* Fallback to first product if none found */
+        if (!product && allProducts.length > 0) product = allProducts[0];
+        if (!product) return;
+
+        /* Populate gallery */
+        var mainImg = document.getElementById('pdp-main-img');
+        mainImg.src = product.image;
+        mainImg.alt = product.name;
+
+        /* Two images — base + hover */
+        var images = [product.image, product.hover];
+        var thumbContainer = document.getElementById('pdp-thumbs');
+        images.forEach(function(src, idx) {
+          var div = document.createElement('div');
+          div.className = 'pdp-gallery__thumb' + (idx === 0 ? ' is-active' : '');
+          var img = document.createElement('img');
+          img.src = src; img.alt = product.name + ' view ' + (idx + 1);
+          div.appendChild(img);
+          div.addEventListener('click', function() {
+            mainImg.style.opacity = '0';
+            setTimeout(function(){ mainImg.src = src; mainImg.style.opacity = '1'; }, 200);
+            document.querySelectorAll('.pdp-gallery__thumb').forEach(function(t){ t.classList.remove('is-active'); });
+            div.classList.add('is-active');
+          });
+          thumbContainer.appendChild(div);
+        });
+
+        /* Populate info */
+        document.getElementById('pdp-breadcrumb-name').textContent = product.name;
+        document.getElementById('pdp-type').textContent = product.type;
+        document.getElementById('pdp-name').textContent = product.name;
+        document.getElementById('pdp-subtitle').textContent = product.subtitle;
+        document.getElementById('pdp-reviews').textContent = product.reviews;
+        document.getElementById('pdp-price').textContent = product.price;
+        document.getElementById('pdp-description').textContent = product.description;
+        document.title = product.name + ' — Aalfaz';
+
+        /* Quantity */
+        var qty = 1;
+        var qtyNum = document.getElementById('pdp-qty-num');
+        document.getElementById('pdp-qty-minus').addEventListener('click', function(){
+          if (qty > 1) { qty--; qtyNum.textContent = qty; }
+        });
+        document.getElementById('pdp-qty-plus').addEventListener('click', function(){
+          qty++; qtyNum.textContent = qty;
+        });
+
+        /* Add to cart */
+        document.getElementById('pdp-add-to-cart').addEventListener('click', function(){
+          window.AlfaazCart.add(product, qty);
+        });
+
+        /* Buy now */
+        document.getElementById('pdp-buy-now').addEventListener('click', function(){
+          window.AlfaazCart.add(product, qty);
+          window.AlfaazCart.openCheckout();
+        });
+
+        /* Related products */
+        var related = allProducts.filter(function(p){ return p.id !== product.id; }).slice(0, 4);
+        var relatedGrid = document.getElementById('pdp-related-grid');
+        relatedGrid.innerHTML = related.map(function(p) {
+          var badge = p.badge ? '<span class="product-card__badge">' + p.badge + '</span>' : '';
+          return '<a href="product-details.html?id=' + p.id + '" class="product-card group">' +
+            '<div class="product-card__base-img"><img src="' + p.image + '" alt="' + p.name + '" /></div>' +
+            '<div class="product-card__hover-img" style="background-image:url(\'' + p.hover + '\')"><div class="product-card__hover-gradient"></div></div>' +
+            '<div class="product-card__topbar"><h2 class="product-card__type">' + p.type + '</h2>' + badge + '</div>' +
+            '<div class="product-card__bottom-info">' +
+              '<div class="product-card__stars"><span>★★★★★</span><span class="product-card__reviews">' + p.reviews + '</span></div>' +
+              '<div class="product-card__meta"><div><h3 class="product-card__title">' + p.name + '</h3><p class="product-card__subtitle">' + p.subtitle + '</p></div>' +
+              '<span class="product-card__price">' + p.price + '</span></div>' +
+            '</div>' +
+            '<div class="product-card__hover-cta"><button class="product-card__cta-btn">VIEW PIECE</button></div>' +
+            '</a>';
+        }).join('');
+
+        /* Accordion toggles */
+        document.querySelectorAll('.pdp-details__toggle').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var target = document.getElementById(btn.getAttribute('data-target'));
+            var isOpen = btn.classList.contains('is-open');
+            btn.classList.toggle('is-open', !isOpen);
+            target.classList.toggle('is-open', !isOpen);
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>

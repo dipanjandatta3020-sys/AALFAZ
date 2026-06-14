@@ -28,6 +28,12 @@
           <span></span>
         </button>
 
+        <!-- Mobile Cart Icon -->
+        <a href="cart.html" class="nav-cart-mobile" aria-label="Cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          <span class="nav-cart-mobile__badge cart-badge">0</span>
+        </a>
+
         <!-- Logo -->
         <a href="index.html" class="nav-logo" aria-label="Aalfaz home">Aalfaz</a>
 
@@ -35,7 +41,10 @@
         <nav class="nav-links nav-links--right" aria-label="Primary navigation right">
           <a href="#" class="nav-link nav-link--desktop">Search</a>
           <a href="#" class="nav-link nav-link--desktop">Account</a>
-          <a href="#" class="nav-link" id="cart-link">Cart (0)</a>
+          <a href="cart.html" class="nav-link" id="cart-link" style="display:flex;align-items:center;gap:0.5rem">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+            <span class="cart-count-text">Cart</span>
+          </a>
         </nav>
       </div>
     </header>
@@ -48,7 +57,7 @@
         <a href="#" class="mobile-menu__link">Futures</a>
         <a href="#" class="mobile-menu__link">Search</a>
         <a href="#" class="mobile-menu__link">Account</a>
-        <a href="#" class="mobile-menu__link">Cart (0)</a>
+        <a href="cart.html" class="mobile-menu__link cart-count-text">Cart</a>
       </nav>
     </div>
     <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
@@ -159,5 +168,27 @@
     <script src="js/mobile-menu.js"></script>
     <script src="js/shop.js"></script>
     <script src="js/footer-parallax.js"></script>
+    <script src="js/ecommerce.js"></script>
+    <script>
+      /* Link shop cards to product detail pages */
+      document.addEventListener('DOMContentLoaded', function(){
+        var ids = {
+          'SOLITAIRE RING': 'ring-solitaire',
+          'THE BANGLE SET': 'bangles-set',
+          'PEARL PENDANT': 'pendant-pearl',
+          'CUBAN CHAIN': 'chain-cuban',
+          'DROP EARRINGS': 'earring-drop',
+          'TENNIS BRACELET': 'bracelet-tennis'
+        };
+        document.getElementById('shop-grid').addEventListener('click', function(e){
+          var card = e.target.closest('.product-card');
+          if (!card) return;
+          var titleEl = card.querySelector('.product-card__title');
+          if (!titleEl) return;
+          var id = ids[titleEl.textContent.trim()];
+          if (id) { e.preventDefault(); window.location.href = 'product-details.html?id=' + id; }
+        });
+      });
+    </script>
   </body>
 </html>

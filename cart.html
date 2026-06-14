@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Your Cart — Aalfaz. Review your selected pieces and proceed to checkout." />
+    <title>Your Cart — Aalfaz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+      /* ── Cart Page ────────────────────────────────────── */
+      .cart-page {
+        padding: 120px 35px 0;
+        min-height: 70vh;
+      }
+
+      .cart-page__heading {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 400;
+        color: #111;
+        margin: 0 0 0.5rem;
+      }
+      .cart-page__sub {
+        font-size: 0.8rem;
+        color: #999;
+        letter-spacing: 0.04em;
+        margin: 0 0 3rem;
+      }
+
+      /* ── Cart Layout ── */
+      .cart-layout {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+        align-items: start;
+        padding-bottom: 6rem;
+      }
+      @media (min-width: 900px) {
+        .cart-layout { grid-template-columns: 1fr 360px; }
+      }
+
+      /* ── Cart Items Table ── */
+      .cart-items { width: 100%; }
+
+      .cart-items__header {
+        display: grid;
+        grid-template-columns: 1fr 100px 120px 80px;
+        gap: 1rem;
+        padding: 0 0 0.75rem;
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+        margin-bottom: 0;
+      }
+      @media (max-width: 600px) { .cart-items__header { display: none; } }
+
+      .cart-items__header span {
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #888;
+      }
+      .cart-items__header span:last-child { text-align: right; }
+
+      .cart-item {
+        display: grid;
+        grid-template-columns: 1fr 100px 120px 80px;
+        gap: 1rem;
+        align-items: center;
+        padding: 1.5rem 0;
+        border-bottom: 1px solid rgba(0,0,0,0.06);
+      }
+      @media (max-width: 600px) {
+        .cart-item {
+          grid-template-columns: 1fr;
+          gap: 0.75rem;
+        }
+      }
+
+      .cart-item__product {
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+      }
+      .cart-item__img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 0.5rem;
+        background: #f7f5f0;
+        flex-shrink: 0;
+      }
+      .cart-item__name {
+        font-size: 0.82rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: #111;
+        margin: 0 0 0.25rem;
+      }
+      .cart-item__subtitle {
+        font-size: 0.75rem;
+        color: #999;
+        margin: 0;
+      }
+      .cart-item__price-mobile {
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: #111;
+        display: none;
+      }
+      @media (max-width: 600px) { .cart-item__price-mobile { display: block; } }
+
+      .cart-item__unit-price {
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: #333;
+      }
+      @media (max-width: 600px) { .cart-item__unit-price { display: none; } }
+
+      /* Quantity selector */
+      .cart-item__qty {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        border: 1.5px solid rgba(0,0,0,0.12);
+        border-radius: 9999px;
+        width: fit-content;
+        overflow: hidden;
+      }
+      .cart-item__qty-btn {
+        background: none;
+        border: none;
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+        color: #333;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s ease;
+        font-family: var(--font-sans);
+      }
+      .cart-item__qty-btn:hover { background: rgba(0,0,0,0.05); }
+      .cart-item__qty-num {
+        min-width: 2rem;
+        text-align: center;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: #111;
+        font-family: var(--font-sans);
+      }
+
+      .cart-item__total-remove {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 0.4rem;
+      }
+      @media (max-width: 600px) { .cart-item__total-remove { align-items: flex-start; flex-direction: row; justify-content: space-between; } }
+
+      .cart-item__total {
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: #111;
+        white-space: nowrap;
+      }
+      .cart-item__remove {
+        background: none;
+        border: none;
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #bbb;
+        cursor: pointer;
+        text-decoration: underline;
+        transition: color 0.2s ease;
+        padding: 0;
+        font-family: var(--font-sans);
+      }
+      .cart-item__remove:hover { color: #d00; }
+
+      /* ── Empty State ── */
+      .cart-empty {
+        padding: 5rem 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.25rem;
+        text-align: center;
+        grid-column: 1 / -1;
+      }
+      .cart-empty__icon {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        background: #f7f5f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #bbb;
+      }
+      .cart-empty__heading {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: 1.8rem;
+        font-weight: 400;
+        color: #111;
+        margin: 0;
+      }
+      .cart-empty__sub {
+        font-size: 0.85rem;
+        color: #999;
+        margin: 0;
+        max-width: 280px;
+      }
+      .cart-empty__cta {
+        display: inline-block;
+        background: #111;
+        color: #fff;
+        border-radius: 9999px;
+        padding: 0.9rem 2.5rem;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: background 0.25s ease, transform 0.15s ease;
+      }
+      .cart-empty__cta:hover { background: #333; transform: translateY(-1px); }
+
+      /* ── Order Summary Sidebar ── */
+      .cart-summary {
+        background: #f7f5f0;
+        border-radius: var(--hero-radius);
+        padding: 2rem;
+        position: sticky;
+        top: 110px;
+      }
+      .cart-summary__heading {
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: #888;
+        margin: 0 0 1.5rem;
+      }
+
+      .cart-summary__row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.85rem;
+      }
+      .cart-summary__row-label {
+        font-size: 0.82rem;
+        color: #555;
+      }
+      .cart-summary__row-value {
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: #333;
+      }
+      .cart-summary__divider {
+        border: none;
+        border-top: 1px solid rgba(0,0,0,0.1);
+        margin: 1rem 0;
+      }
+      .cart-summary__total-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.75rem;
+      }
+      .cart-summary__total-label {
+        font-size: 0.88rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: #111;
+      }
+      .cart-summary__total-value {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #111;
+      }
+      .cart-summary__checkout-btn {
+        width: 100%;
+        padding: 1.1rem;
+        background: #111;
+        color: #fff;
+        border: none;
+        border-radius: 9999px;
+        font-family: var(--font-sans);
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: background 0.25s ease, transform 0.15s ease;
+        margin-bottom: 0.75rem;
+      }
+      .cart-summary__checkout-btn:hover { background: #333; transform: translateY(-1px); }
+      .cart-summary__continue {
+        display: block;
+        text-align: center;
+        color: #888;
+        font-size: 0.75rem;
+        font-weight: 500;
+        text-decoration: none;
+        letter-spacing: 0.04em;
+        transition: color 0.2s ease;
+      }
+      .cart-summary__continue:hover { color: #111; }
+
+      .cart-summary__note {
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(0,0,0,0.1);
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .cart-summary__note-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.72rem;
+        color: #888;
+      }
+      .cart-summary__note-item svg { flex-shrink: 0; color: #555; }
+    </style>
+  </head>
+  <body>
+
+    <!-- Navigation — always cream on cart page -->
+    <header id="navbar" class="navbar navbar--shop">
+      <div class="nav-inner">
+        <nav class="nav-links nav-links--left" aria-label="Primary navigation left">
+          <a href="shop.html" class="nav-link">Shop</a>
+          <a href="index.html#philosophy" class="nav-link">About</a>
+          <a href="#" class="nav-link">Futures</a>
+        </nav>
+
+        <button class="nav-hamburger" id="hamburger-btn" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+
+        <!-- Mobile Cart Icon -->
+        <a href="cart.html" class="nav-cart-mobile" aria-label="Cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          <span class="nav-cart-mobile__badge cart-badge">0</span>
+        </a>
+
+        <a href="index.html" class="nav-logo" aria-label="Aalfaz home">Aalfaz</a>
+
+        <nav class="nav-links nav-links--right" aria-label="Primary navigation right">
+          <a href="#" class="nav-link nav-link--desktop">Search</a>
+          <a href="#" class="nav-link nav-link--desktop">Account</a>
+          <a href="cart.html" class="nav-link nav-link--active" style="display:flex;align-items:center;gap:0.5rem">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+            <span class="cart-count-text">Cart</span>
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+      <nav class="mobile-menu__nav">
+        <a href="shop.html" class="mobile-menu__link">Shop</a>
+        <a href="index.html#philosophy" class="mobile-menu__link">About</a>
+        <a href="#" class="mobile-menu__link">Futures</a>
+        <a href="cart.html" class="mobile-menu__link cart-count-text">Cart</a>
+      </nav>
+    </div>
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
+
+    <main>
+      <div class="cart-page">
+        <h1 class="cart-page__heading">Your Cart</h1>
+        <p class="cart-page__sub" id="cart-item-count">0 items</p>
+
+        <div class="cart-layout" id="cart-layout">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="site-footer" id="site-footer">
+        <div class="footer__inner">
+          <div class="footer__logo-wrap">
+            <h2 class="footer__logo-text" id="footer-logo">Aalfaz</h2>
+          </div>
+          <hr class="footer__divider" />
+          <div class="footer__links-grid">
+            <div class="footer__link-col">
+              <h3 class="footer__col-title">Collections</h3>
+              <a href="shop.html" class="footer__link">Rings</a>
+              <a href="shop.html" class="footer__link">Necklaces</a>
+              <a href="shop.html" class="footer__link">Earrings</a>
+              <a href="shop.html" class="footer__link">Bracelets</a>
+            </div>
+            <div class="footer__link-col">
+              <h3 class="footer__col-title">Brand</h3>
+              <a href="#" class="footer__link">About Alfaaz</a>
+              <a href="#" class="footer__link">Our Story</a>
+              <a href="#" class="footer__link">Craftsmanship</a>
+            </div>
+            <div class="footer__link-col">
+              <h3 class="footer__col-title">Support</h3>
+              <a href="#" class="footer__link">Contact</a>
+              <a href="#" class="footer__link">FAQ</a>
+              <a href="#" class="footer__link">Shipping &amp; Returns</a>
+              <a href="#" class="footer__link">Care Guide</a>
+            </div>
+            <div class="footer__link-col">
+              <h3 class="footer__col-title">Legal</h3>
+              <a href="#" class="footer__link">Privacy Policy</a>
+              <a href="#" class="footer__link">Terms</a>
+            </div>
+          </div>
+          <div class="footer__bottom">
+            <p class="footer__copyright">&copy; 2026 Alfaaz. All rights reserved.</p>
+            <div class="footer__region-selector">
+              <span class="footer__region-dot"></span>
+              <span class="footer__region-label">Region /</span>
+              <div class="footer__select-wrap">
+                <select class="footer__select"><option value="IN">India (INR)</option></select>
+                <svg class="footer__chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </main>
+
+    <script src="js/mobile-menu.js"></script>
+    <script src="js/footer-parallax.js"></script>
+    <script src="js/ecommerce.js"></script>
+    <script>
+      (function () {
+        function renderCart() {
+          var cart = window.AlfaazCart.get();
+          var layout = document.getElementById('cart-layout');
+          var countEl = document.getElementById('cart-item-count');
+          var totalItems = cart.reduce(function(s,i){ return s + i.quantity; }, 0);
+          countEl.textContent = totalItems + ' item' + (totalItems !== 1 ? 's' : '');
+
+          if (cart.length === 0) {
+            layout.innerHTML = '<div class="cart-empty">' +
+              '<div class="cart-empty__icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></div>' +
+              '<h2 class="cart-empty__heading">Your cart is empty</h2>' +
+              '<p class="cart-empty__sub">Looks like you haven\'t added anything yet. Explore our collection.</p>' +
+              '<a href="shop.html" class="cart-empty__cta">Shop the Collection</a>' +
+              '</div>';
+            return;
+          }
+
+          var total = window.AlfaazCart.getTotal();
+          var shipping = total >= 50000 ? 0 : 999;
+
+          /* Items column */
+          var itemsHtml = '<div class="cart-items">' +
+            '<div class="cart-items__header">' +
+              '<span>Product</span><span>Price</span><span>Quantity</span><span style="text-align:right">Total</span>' +
+            '</div>';
+
+          cart.forEach(function(item) {
+            itemsHtml += '<div class="cart-item" data-id="' + item.id + '">' +
+              '<div class="cart-item__product">' +
+                '<img class="cart-item__img" src="' + item.image + '" alt="' + item.name + '">' +
+                '<div>' +
+                  '<p class="cart-item__name">' + item.name + '</p>' +
+                  '<p class="cart-item__subtitle">' + item.subtitle + '</p>' +
+                  '<p class="cart-item__price-mobile">₹' + (item.priceNum * item.quantity).toLocaleString('en-IN') + '</p>' +
+                '</div>' +
+              '</div>' +
+              '<div class="cart-item__unit-price">₹' + item.priceNum.toLocaleString('en-IN') + '</div>' +
+              '<div class="cart-item__qty">' +
+                '<button class="cart-item__qty-btn" data-action="minus" data-id="' + item.id + '">−</button>' +
+                '<span class="cart-item__qty-num">' + item.quantity + '</span>' +
+                '<button class="cart-item__qty-btn" data-action="plus" data-id="' + item.id + '">+</button>' +
+              '</div>' +
+              '<div class="cart-item__total-remove">' +
+                '<span class="cart-item__total">₹' + (item.priceNum * item.quantity).toLocaleString('en-IN') + '</span>' +
+                '<button class="cart-item__remove" data-id="' + item.id + '">Remove</button>' +
+              '</div>' +
+              '</div>';
+          });
+          itemsHtml += '</div>';
+
+          /* Summary sidebar */
+          var summaryHtml = '<div class="cart-summary">' +
+            '<p class="cart-summary__heading">Order Summary</p>' +
+            '<div class="cart-summary__row">' +
+              '<span class="cart-summary__row-label">Subtotal</span>' +
+              '<span class="cart-summary__row-value">₹' + total.toLocaleString('en-IN') + '</span>' +
+            '</div>' +
+            '<div class="cart-summary__row">' +
+              '<span class="cart-summary__row-label">Shipping</span>' +
+              '<span class="cart-summary__row-value">' + (shipping === 0 ? 'Free' : '₹' + shipping.toLocaleString('en-IN')) + '</span>' +
+            '</div>' +
+            '<div class="cart-summary__row">' +
+              '<span class="cart-summary__row-label">Tax</span>' +
+              '<span class="cart-summary__row-value">Included</span>' +
+            '</div>' +
+            '<hr class="cart-summary__divider">' +
+            '<div class="cart-summary__total-row">' +
+              '<span class="cart-summary__total-label">Total</span>' +
+              '<span class="cart-summary__total-value">₹' + (total + shipping).toLocaleString('en-IN') + '</span>' +
+            '</div>' +
+            '<button class="cart-summary__checkout-btn" id="cart-checkout-btn">Proceed to Checkout</button>' +
+            '<a href="shop.html" class="cart-summary__continue">← Continue Shopping</a>' +
+            '<div class="cart-summary__note">' +
+              '<div class="cart-summary__note-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Secure checkout</div>' +
+              '<div class="cart-summary__note-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>Free returns within 7 days</div>' +
+              '<div class="cart-summary__note-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>COD &amp; Online Payment</div>' +
+            '</div>' +
+            '</div>';
+
+          layout.innerHTML = itemsHtml + summaryHtml;
+
+          /* Wire events */
+          document.getElementById('cart-checkout-btn').addEventListener('click', function(){
+            window.AlfaazCart.openCheckout();
+          });
+
+          layout.addEventListener('click', function(e) {
+            var qtyBtn = e.target.closest('.cart-item__qty-btn');
+            if (qtyBtn) {
+              var id = qtyBtn.getAttribute('data-id');
+              var item = window.AlfaazCart.get().find(function(i){ return i.id === id; });
+              if (!item) return;
+              var newQty = qtyBtn.getAttribute('data-action') === 'plus' ? item.quantity + 1 : item.quantity - 1;
+              window.AlfaazCart.updateQty(id, newQty);
+              renderCart();
+            }
+            var removeBtn = e.target.closest('.cart-item__remove');
+            if (removeBtn) {
+              window.AlfaazCart.remove(removeBtn.getAttribute('data-id'));
+              renderCart();
+            }
+          });
+        }
+
+        document.addEventListener('DOMContentLoaded', renderCart);
+        window.addEventListener('alfaaz:cartUpdated', renderCart);
+      })();
+    </script>
+  </body>
+</html>

@@ -28,6 +28,12 @@
           <span></span>
         </button>
 
+        <!-- Mobile Cart Icon -->
+        <a href="cart.html" class="nav-cart-mobile" aria-label="Cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          <span class="nav-cart-mobile__badge cart-badge">0</span>
+        </a>
+
         <!-- Logo -->
         <a href="#" class="nav-logo" aria-label="Aalfaz home">Aalfaz</a>
 
@@ -35,7 +41,10 @@
         <nav class="nav-links nav-links--right" aria-label="Primary navigation right">
           <a href="#" class="nav-link nav-link--desktop">Search</a>
           <a href="#" class="nav-link nav-link--desktop">Account</a>
-          <a href="#" class="nav-link" id="cart-link">Cart (0)</a>
+          <a href="cart.html" class="nav-link" id="cart-link" style="display:flex;align-items:center;gap:0.5rem">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+            <span class="cart-count-text">Cart</span>
+          </a>
         </nav>
       </div>
 
@@ -88,7 +97,7 @@
         <a href="#" class="mobile-menu__link">Futures</a>
         <a href="#" class="mobile-menu__link">Search</a>
         <a href="#" class="mobile-menu__link">Account</a>
-        <a href="#" class="mobile-menu__link">Cart (0)</a>
+        <a href="cart.html" class="mobile-menu__link cart-count-text">Cart</a>
       </nav>
     </div>
     <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
@@ -145,7 +154,7 @@
           <div class="products__scroll" id="products-scroll">
 
             <!-- Card 1 — ring -->
-            <a href="#" class="product-card group">
+            <a href="product-details.html?id=ring-solitaire" class="product-card group">
               <div class="product-card__base-img">
                 <img src="https://res.cloudinary.com/dwchxvpln/image/upload/q_auto/f_auto/v1778842384/file_00000000e4b4722f8e2c578c5734a676_jadeog.png" alt="Solitaire Ring" />
               </div>
@@ -175,7 +184,7 @@
             </a>
 
             <!-- Card 2 — bangles -->
-            <a href="#" class="product-card group">
+            <a href="product-details.html?id=bangles-set" class="product-card group">
               <div class="product-card__base-img">
                 <img src="https://res.cloudinary.com/dwchxvpln/image/upload/q_auto/f_auto/v1778842386/file_000000005dc8722f80fdcd06c66d08a0_qmpmmj.png" alt="Bangle Set" />
               </div>
@@ -205,7 +214,7 @@
             </a>
 
             <!-- Card 3 — pendant -->
-            <a href="#" class="product-card group">
+            <a href="product-details.html?id=pendant-pearl" class="product-card group">
               <div class="product-card__base-img">
                 <img src="https://res.cloudinary.com/dwchxvpln/image/upload/q_auto/f_auto/v1778842383/file_000000008d20722f930db39bd306a08c_djuj0y.png" alt="Pearl Pendant" />
               </div>
@@ -235,7 +244,7 @@
             </a>
 
             <!-- Card 4 — chain -->
-            <a href="#" class="product-card group">
+            <a href="product-details.html?id=chain-cuban" class="product-card group">
               <div class="product-card__base-img">
                 <img src="https://res.cloudinary.com/dwchxvpln/image/upload/q_auto/f_auto/v1778842387/file_00000000bf88722fab83a9a5152dbd3b_osqjva.png" alt="Cuban Chain" />
               </div>
@@ -265,7 +274,7 @@
             </a>
 
             <!-- Card 5 — earring -->
-            <a href="#" class="product-card group">
+            <a href="product-details.html?id=earring-drop" class="product-card group">
               <div class="product-card__base-img">
                 <img src="https://images.unsplash.com/photo-1588444837495-c6cfeb53f32d?auto=format&fit=crop&w=800&q=80" alt="Drop Earrings" />
               </div>
@@ -295,7 +304,7 @@
             </a>
 
             <!-- Card 6 — bracelet -->
-            <a href="#" class="product-card group">
+            <a href="product-details.html?id=bracelet-tennis" class="product-card group">
               <div class="product-card__base-img">
                 <img src="https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&fit=crop&w=800&q=80" alt="Tennis Bracelet" />
               </div>
@@ -575,5 +584,6 @@
     <script src="js/shop-dropdown.js"></script>
     <script src="js/hero-slideshow.js"></script>
     <script src="js/split-parallax.js"></script>
+    <script src="js/ecommerce.js"></script>
   </body>
 </html>
